@@ -1,8 +1,8 @@
 {
-  "name": "amitava82/angular-multiselect",
-  "version": "1.0.0",
+  "name": "mumoc/angular-multiselect",
+  "version": "1.0.1",
   "main": "src/multiselect.js",
-  "description": "Native AngularJS multiselect directive",
+  "description": "Multiselect",
   "license": "MIT",
   "ignore": [
     ".jshintrc",
