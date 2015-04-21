@@ -273,27 +273,19 @@ angular.module('ui.multiselect', [
     }
   }]);
 
-angular.module('multiselect.tpl.html', [])
+angular.module("multiselect.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("multiselect.tpl.html",
+  "<div class=\"dropdown\">\n" +
+  "  <button class=\"btn\" ng-click=\"toggleSelect()\" ng-disabled=\"disabled\" ng-class=\"{'error': !valid()}\">\n" +
+  "    <span class=\"pull-left\">{{header}}</span>\n" +
+  "    <span class=\"caret pull-right\"></span>\n" +
+  "  </button>\n" +
+  "  <ul class=\"dropdown-menu\">\n" +
+  "    <li ng-repeat=\"i in items | filter:searchText\">\n" +
+  "      <a ng-click=\"select(i); focus()\">\n" +
+  "        <i ng-class=\"{'icon-ok': i.checked, 'icon-empty': !i.checked}\"></i>&nbsp; {{i.label}}</a>\n" +
+  "    </li>\n" +
+  "  </ul>\n" +
+  "</div>");
+}]);
 
-  .run(['$templateCache', function($templateCache) {
-    $templateCache.put('multiselect.tpl.html',
-
-      "<div class=\"btn-group\">\n" +
-      "  <button type=\"button\" class=\"btn btn-default dropdown-toggle\" ng-click=\"toggleSelect()\" ng-disabled=\"disabled\" ng-class=\"{'error': !valid()}\">\n" +
-      "    {{header}} <span class=\"caret\"></span>\n" +
-      "  </button>\n" +
-      "  <ul class=\"dropdown-menu\">\n" +
-      "    <li>\n" +
-      "      <input class=\"form-control input-sm\" type=\"text\" ng-model=\"searchText.label\" autofocus=\"autofocus\" placeholder=\"Filter\" />\n" +
-      "    </li>\n" +
-      "    <li ng-show=\"multiple\" role=\"presentation\" class=\"\">\n" +
-      "      <button class=\"btn btn-link btn-xs\" ng-click=\"checkAll()\" type=\"button\"><i class=\"glyphicon glyphicon-ok\"></i> Check all</button>\n" +
-      "      <button class=\"btn btn-link btn-xs\" ng-click=\"uncheckAll()\" type=\"button\"><i class=\"glyphicon glyphicon-remove\"></i> Uncheck all</button>\n" +
-      "    </li>\n" +
-      "    <li ng-repeat=\"i in items | filter:searchText\">\n" +
-      "      <a ng-click=\"select(i); focus()\">\n" +
-      "        <i class=\"glyphicon\" ng-class=\"{'glyphicon-ok': i.checked, 'empty': !i.checked}\"></i> {{i.label}}</a>\n" +
-      "    </li>\n" +
-      "  </ul>\n" +
-      "</div>");
-  }]);
