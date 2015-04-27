@@ -125,7 +125,13 @@ angular.module('ui.multiselect', [
                   if (attrs.msSelected) {
                       scope.header = $interpolate(attrs.msSelected)(scope);
                   } else {
-                      scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
+                    var count;
+                    if (modelCtrl.$modelValue instanceof Array) {
+                      count = modelCtrl.$modelValue.length;
+                    } else {
+                      count = 0;
+                    }
+                    scope.header = count + ' ' + 'selected';
                   }
 
             } else {
@@ -246,7 +252,6 @@ angular.module('ui.multiselect', [
           } else {
             element.addClass('open');
             $document.bind('click', clickHandler);
-            scope.focus();
           }
         };
 
@@ -273,19 +278,25 @@ angular.module('ui.multiselect', [
     }
   }]);
 
-angular.module("multiselect.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("multiselect.tpl.html",
-  "<div class=\"dropdown\">\n" +
-  "  <button class=\"btn\" ng-click=\"toggleSelect()\" ng-disabled=\"disabled\" ng-class=\"{'error': !valid()}\">\n" +
-  "    <span class=\"pull-left\">{{header}}</span>\n" +
-  "    <span class=\"caret pull-right\"></span>\n" +
-  "  </button>\n" +
-  "  <ul class=\"dropdown-menu\">\n" +
-  "    <li ng-repeat=\"i in items | filter:searchText\">\n" +
-  "      <a ng-click=\"select(i); focus()\">\n" +
-  "        <i ng-class=\"{'icon-ok': i.checked, 'icon-empty': !i.checked}\"></i>&nbsp; {{i.label}}</a>\n" +
-  "    </li>\n" +
-  "  </ul>\n" +
-  "</div>");
-}]);
+angular.module('multiselect.tpl.html', [])
+
+  .run(['$templateCache', function($templateCache) {
+    $templateCache.put('multiselect.tpl.html',
+
+      "<div class=\"btn-group\">\n" +
+      "  <button type=\"button\" class=\"btn btn-default dropdown-toggle\" ng-click=\"toggleSelect()\" ng-disabled=\"disabled\" ng-class=\"{'error': !valid()}\">\n" +
+      "    {{header}} <span class=\"caret\"></span>\n" +
+      "  </button>\n" +
+      "  <ul class=\"dropdown-menu\">\n" +
+      "    <li ng-show=\"multiple\" role=\"presentation\" class=\"\">\n" +
+      "      <a ng-click=\"checkAll();\">\n" +
+      "        <i class=\"glyphicon\" ng-class=\"{'glyphicon-ok': i.checked, 'empty': !i.checked}\"></i> All </a>\n" +
+      "    </li>\n" +
+      "    <li ng-repeat=\"i in items\">\n" +
+      "      <a ng-click=\"select(i);\">\n" +
+      "        <i class=\"glyphicon\" ng-class=\"{'glyphicon-ok': i.checked, 'empty': !i.checked}\"></i> {{i.label}}</a>\n" +
+      "    </li>\n" +
+      "  </ul>\n" +
+      "</div>");
+  }]);
 
